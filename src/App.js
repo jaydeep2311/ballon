@@ -38,6 +38,7 @@ function App() {
     console.log(inputnum);
     let divcolorlist;
     let newlist = [];
+    //creating the new updated colorlist after shooting the ballon
     for (var i = 0; i < colorList.length; i++) {
       if (i !== Number(inputnum) - 1) {
         newlist.push(colorList[i]);
@@ -51,18 +52,36 @@ function App() {
     }
     setcolorList(newlist);
   };
+  const returnBallon = (e, idx, el) => {
+    //function to return the ballon to its orignal place
+    let index = e.target.id;
+    let left = colorList.slice(0, index);
+    let right = colorList.slice(index);
+    let main = [...left, el, ...right];
+    setcolorList(main);
+    let newdivlist = [];
+    //loop to refactor the the circles inside the empty div
+    for (var i = 0; i < divCircle.length; i++) {
+      if (i !== idx) {
+        newdivlist.push(divCircle[i]);
+      }
+    }
+    setdivCircle(newdivlist);
+  };
   return (
     <div>
-      <h3>Empty div</h3>
+      <h3 className="title">Empty div</h3>
       <div className="main-div">
         <div className="empty-div">
-          {divCircle.map(({ el }, i) => {
+          {/* Empty div section */}
+          {divCircle.map(({ el, index }, i) => {
             return (
               <div
-                key={i}
+                id={index}
+                onClick={(e) => returnBallon(e, i, el)}
                 style={{
-                  width: "100px",
-                  height: "100px",
+                  width: "80px",
+                  height: "80px",
                   backgroundColor: `${colorsmap[el]}`,
                   borderRadius: "50%",
                   marginBottom: "10px",
@@ -78,8 +97,8 @@ function App() {
               <div
                 key={i}
                 style={{
-                  width: "100px",
-                  height: "100px",
+                  width: "80px",
+                  height: "80px",
                   backgroundColor: `${colorsmap[el]}`,
                   borderRadius: "50%",
                   marginBottom: "10px",
