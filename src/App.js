@@ -16,6 +16,7 @@ function App() {
   const [inputnum, setinputnum] = useState("");
   //list of state for showing ballons inside empty div
   const [divCircle, setdivCircle] = useState([]);
+  const [original, setoriginal] = useState([]);
   useEffect(() => {
     //function to generate random nunber between 1 to 5
     function randomIntFromInterval(min, max) {
@@ -30,12 +31,12 @@ function App() {
         randomColorlist.push(rndInt);
       }
       setcolorList(randomColorlist);
+      setoriginal(randomColorlist);
     }
   }, []);
   const handleCirclepush = (e) => {
     //function for taking input from user
     e.preventDefault();
-    console.log(inputnum);
     let divcolorlist;
     let newlist = [];
     //creating the new updated colorlist after shooting the ballon
@@ -54,7 +55,8 @@ function App() {
   };
   const returnBallon = (e, idx, el) => {
     //function to return the ballon to its orignal place
-    let index = e.target.id;
+    let index = original.indexOf(el);
+    console.log(index, el);
     let left = colorList.slice(0, index);
     let right = colorList.slice(index);
     let main = [...left, el, ...right];
