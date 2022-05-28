@@ -10,6 +10,9 @@
   height: 500px;
   border: 1px solid black;
   margin-left: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .num-input {
   width: 300px;

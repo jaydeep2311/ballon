@@ -10,9 +10,12 @@ function App() {
     4: "#CBC3E3",
     5: "#ADD8E6",
   };
-
+  //usestate for random color list
   const [colorList, setcolorList] = useState([]);
+  //use state for taking input from user for shooting ballon
   const [inputnum, setinputnum] = useState("");
+  //list of state for showing ballons inside empty div
+  const [divCircle, setdivCircle] = useState([]);
   useEffect(() => {
     //function to generate random nunber between 1 to 5
     function randomIntFromInterval(min, max) {
@@ -29,16 +32,51 @@ function App() {
       setcolorList(randomColorlist);
     }
   }, []);
-  const handleCirclepush = (e) => {};
+  const handleCirclepush = (e) => {
+    //function for taking input from user
+    e.preventDefault();
+    console.log(inputnum);
+    let divcolorlist;
+    let newlist = [];
+    for (var i = 0; i < colorList.length; i++) {
+      if (i !== Number(inputnum) - 1) {
+        newlist.push(colorList[i]);
+      } else {
+        var payload = {
+          el: colorList[i],
+          index: i,
+        };
+        setdivCircle([...divCircle, payload]);
+      }
+    }
+    setcolorList(newlist);
+  };
   return (
     <div>
       <h3>Empty div</h3>
       <div className="main-div">
-        <div className="empty-div"></div>
+        <div className="empty-div">
+          {divCircle.map(({ el }, i) => {
+            return (
+              <div
+                key={i}
+                style={{
+                  width: "100px",
+                  height: "100px",
+                  backgroundColor: `${colorsmap[el]}`,
+                  borderRadius: "50%",
+                  marginBottom: "10px",
+                  border: `10px solid ${colorsmap[el]}`,
+                }}
+              ></div>
+            );
+          })}
+        </div>
         <div className="circle-list">
           {colorList.map((el, i) => {
             return (
               <div
+                key={i}
                 style={{
                   width: "100px",
                   height: "100px",
