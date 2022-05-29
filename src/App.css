@@ -1,6 +1,9 @@
 .App {
   text-align: center;
 }
+body {
+  background-color: cyan;
+}
 .main-div {
   display: flex;
   justify-content: space-around;

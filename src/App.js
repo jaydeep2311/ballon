@@ -40,15 +40,14 @@ function App() {
     let divcolorlist;
     let newlist = [];
     //creating the new updated colorlist after shooting the ballon
+    if (inputnum > colorList.length) {
+      alert("Please select valid number");
+    }
     for (var i = 0; i < colorList.length; i++) {
       if (i !== Number(inputnum) - 1) {
         newlist.push(colorList[i]);
       } else {
-        var payload = {
-          el: colorList[i],
-          index: i,
-        };
-        setdivCircle([...divCircle, payload]);
+        setdivCircle([...divCircle, colorList[i]]);
       }
     }
     setcolorList(newlist);
@@ -56,19 +55,20 @@ function App() {
   const returnBallon = (e, idx, el) => {
     //function to return the ballon to its orignal place
     let index = original.indexOf(el);
-    console.log(index, el);
-    let left = colorList.slice(0, index);
-    let right = colorList.slice(index);
-    let main = [...left, el, ...right];
-    setcolorList(main);
-    let newdivlist = [];
+    let newdivlist = divCircle.filter((d, i) => {
+      return i !== idx;
+    });
+    setdivCircle(newdivlist);
     //loop to refactor the the circles inside the empty div
-    for (var i = 0; i < divCircle.length; i++) {
-      if (i !== idx) {
-        newdivlist.push(divCircle[i]);
+
+    setdivCircle(newdivlist);
+    let newColorslist = [];
+    for (var j = 0; j < original.length; j++) {
+      if (!newdivlist.includes(original[j])) {
+        newColorslist.push(original[j]);
       }
     }
-    setdivCircle(newdivlist);
+    setcolorList(newColorslist);
   };
   return (
     <div>
@@ -76,10 +76,9 @@ function App() {
       <div className="main-div">
         <div className="empty-div">
           {/* Empty div section */}
-          {divCircle.map(({ el, index }, i) => {
+          {divCircle.map((el, i) => {
             return (
               <div
-                id={index}
                 onClick={(e) => returnBallon(e, i, el)}
                 style={{
                   width: "80px",
@@ -87,6 +86,7 @@ function App() {
                   backgroundColor: `${colorsmap[el]}`,
                   borderRadius: "50%",
                   marginBottom: "10px",
+                  boxShadow: `5px 5px 5px  5px ${colorsmap[el]}`,
                   border: `10px solid ${colorsmap[el]}`,
                 }}
               ></div>
@@ -102,6 +102,7 @@ function App() {
                   width: "80px",
                   height: "80px",
                   backgroundColor: `${colorsmap[el]}`,
+                  boxShadow: `5px 5px 5px  5px ${colorsmap[el]}`,
                   borderRadius: "50%",
                   marginBottom: "10px",
                   border: `10px solid ${colorsmap[el]}`,
